@@ -1,0 +1,50 @@
+
+local ESPFolder = Instance.new("Folder")
+ESPFolder.Name = "ESP"
+ESPFolder.Parent = game.CoreGui
+
+
+local espAtivado = true
+
+
+local function LoadItems()
+    if espAtivado then
+        for _, item in pairs(game.Workspace:GetChildren()) do
+            
+            if item:IsA("Part") then
+                local esp = Instance.new("BoxHandleAdornment")
+                esp.Name = "ItemESP"
+                esp.Size = item.Size + Vector3.new(0.2, 0.2, 0.2)
+                esp.Color3 = Color3.new(1, 0, 0) -- Cor do ESP (vermelho)
+                esp.Transparency = 0.7
+                esp.ZIndex = 0
+                esp.AlwaysOnTop = true
+                esp.Visible = true
+                esp.Adornee = item
+
+                
+                esp.Parent = ESPFolder
+            end
+        end
+    else
+        ESPFolder:ClearAllChildren() 
+    end
+end
+
+
+local function ToggleESP()
+    espAtivado = not espAtivado
+    LoadItems()
+end
+
+
+local player = game.Players.LocalPlayer
+local gui = Instance.new("ScreenGui")
+gui.Parent = player.PlayerGui
+
+local button = Instance.new("TextButton")
+button.Parent = gui
+button.Position = UDim2.new(0.5, 0, 0.9, 0)
+button.Size = UDim2.new(0, 200, 0, 50)
+button.Text = "Ativar/Desativar ESP"
+button.MouseButton1Click:Connect(ToggleESP)
